@@ -1,5 +1,10 @@
 .gamebutton {
-    background-color: whitesmoke;
+    background-color: white;
     width: 55px;
     height: 55px;
+}
+
+.gameBoard {
+    display: grid;
+    grid-template: 5vh 5vh 5vh/5vh 5vh 5vh;
 }
