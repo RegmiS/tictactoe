@@ -5,11 +5,23 @@ const board = [["X", " ", " "], [" ", " ", " "], [" ", " ", " "]];
 const playerState = "X";
 const boardDisplay = document.querySelector('.gameBoard');
 console.table(board);
+
+function gameButtonClick(gameIndex){
+    console.log(gameIndex[0], gameIndex[1]);
+}
+
+
+
 function displayGame (){
     for(let x = 0; x < board.length; x++){
         for(let y = 0; y < board[0].length; y++){
             const boardButton = document.createElement('button');
             boardButton.classList = "gamebutton";
+            boardButton.innerHTML = "X";
+            boardButton.addEventListener("click", (event) => {
+                gameButtonClick([x,y]);
+                event.preventDefault();
+            });
             boardDisplay.appendChild(boardButton);
         }
     }
