@@ -2,7 +2,10 @@
 // 3 ways across to win, 3 ways down to win, 2 diagonals to win
 
 const board = [[" ", " ", " "], [" ", " ", " "], [" ", " ", " "]];
+let playerOne = "";
+let playerTwo = "";
 let playerState = "X";
+
 const boardDisplay = document.querySelector('#game-board');
 const curplayer = document.querySelector('#gamestate');
 const startButton = document.querySelector('#start-button');
@@ -40,7 +43,7 @@ function checkWinner() {
 }
 
 function updateCurPlayer(){
-    const playerStatement = playerState=="X"? "Player1  X" : "Player2 O";
+    const playerStatement = playerState=="X"? playerOne + " X" : playerTwo + " O";
     curplayer.innerHTML = "Cur Player: " + playerStatement;
 }
 
@@ -56,6 +59,7 @@ function gameButtonClick(x,y){
 
 function displayGame (){
     boardDisplay.innerHTML = "";
+    boardDisplay.classList = "gameBoard";
     for(let x = 0; x < board.length; x++){
         for(let y = 0; y < board[0].length; y++){
             const boardButton = document.createElement('button');
@@ -80,22 +84,30 @@ function displayPlayers(){
     const labelB = document.createElement('label');
     labelB.innerHTML = "Player2: "
     const formB = document.createElement('input');
-    formA.type = "text";
+    formB.type = "text";
     playerform.appendChild(labelA);
     playerform.appendChild(formA);
     playerform.appendChild(labelB);
     playerform.appendChild(formB);
+    playerinputs.innerHTML = "";
     playerinputs.appendChild(playerform);
+    return {formA, formB}
 }
 
 let gamestate;
+let test;
+
+test = displayPlayers();
+
 
 startButton.addEventListener("click", () => {
-    console.log("test");
+    playerOne = test.formA.value;
+    playerTwo = test.formB.value;
+    playerinputs.innerHTML = "";
+    displayGame();
 });
 
 resetButton.addEventListener("click", () => {
     console.log("test");
 });
 
-displayPlayers();
