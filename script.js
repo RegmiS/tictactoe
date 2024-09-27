@@ -1,7 +1,7 @@
 // 9 spots, 2 players, board with spot and either blank or not blank
 // 3 ways across to win, 3 ways down to win, 2 diagonals to win
 
-const board = [[" ", " ", " "], [" ", " ", " "], [" ", " ", " "]];
+let board = [[" ", " ", " "], [" ", " ", " "], [" ", " ", " "]];
 let playerOne = "";
 let playerTwo = "";
 let playerState = "X";
@@ -103,11 +103,16 @@ test = displayPlayers();
 startButton.addEventListener("click", () => {
     playerOne = test.formA.value;
     playerTwo = test.formB.value;
+    updateCurPlayer();
     playerinputs.innerHTML = "";
     displayGame();
 });
 
 resetButton.addEventListener("click", () => {
-    console.log("test");
+    test = displayPlayers();
+    playerState = "X";
+    board = [[" ", " ", " "], [" ", " ", " "], [" ", " ", " "]];
+    boardDisplay.innerHTML = "";
+    boardDisplay.classList = "";
 });
 
