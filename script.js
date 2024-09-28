@@ -57,8 +57,18 @@ function gameButtonClick(x,y){
     }
 }
 
-function displayGame (){
+function resetGameBoardDisplay(){
     boardDisplay.innerHTML = "";
+}
+
+function resetGameBoard(){
+    resetGameBoardDisplay();
+    board = [[" ", " ", " "], [" ", " ", " "], [" ", " ", " "]];
+    boardDisplay.classList = "";
+}
+
+function displayGame (){
+    resetGameBoard();
     boardDisplay.classList = "gameBoard";
     for(let x = 0; x < board.length; x++){
         for(let y = 0; y < board[0].length; y++){
@@ -75,6 +85,7 @@ function displayGame (){
 }
 
 const playerinputs = document.querySelector('#player-control');
+
 function displayPlayers(){
     const playerform = document.createElement('form');
     const labelA = document.createElement('label');
@@ -111,8 +122,5 @@ startButton.addEventListener("click", () => {
 resetButton.addEventListener("click", () => {
     test = displayPlayers();
     playerState = "X";
-    board = [[" ", " ", " "], [" ", " ", " "], [" ", " ", " "]];
-    boardDisplay.innerHTML = "";
-    boardDisplay.classList = "";
 });
 
