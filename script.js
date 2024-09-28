@@ -72,15 +72,25 @@ function resetGameBoard(){
     boardDisplay.classList = "";
 }
 
+function createElement(type, docInnerHtml, docClasslist, elementList){
+    const newElement = document.createElement(type);
+    newElement.innerHTML = docInnerHtml;
+    newElement.classList = docClasslist;
+    if(elementList.length > 0){appendElements(newElement, elementList)};
+}
+
+function appendElements(mainElement, elementList){
+    for(let i = 0; i < elementList.length; i++){
+        mainElement.appendChild(elementList[i]);
+    }
+}
+
 function displayGame (){
-    resetGameBoard();
-    boardDisplay.classList = "gameBoard";
+    resetGameBoardDisplay();
     for(let x = 0; x < board.length; x++){
         for(let y = 0; y < board[0].length; y++){
-            const boardButton = document.createElement('button');
-            boardButton.classList = "gamebutton";
-            boardButton.innerHTML = board[x][y];
-            boardButton.addEventListener("click", (event) => {
+            const newButton = (createElement('button', board[x][y], 'gamebutton', []));
+            newButton.addEventListener("click", () => {
                 gameButtonClick(x,y);
             });
             boardDisplay.appendChild(boardButton);
@@ -90,18 +100,14 @@ function displayGame (){
 
 function displayPlayers(){
     const playerform = document.createElement('form');
-    const labelA = document.createElement('label');
-    labelA.innerHTML = "Player1: "
-    const formA = document.createElement('input');
-    formA.type = "text";
-    const labelB = document.createElement('label');
-    labelB.innerHTML = "Player2: "
-    const formB = document.createElement('input');
-    formB.type = "text";
-    playerform.appendChild(labelA);
-    playerform.appendChild(formA);
-    playerform.appendChild(labelB);
-    playerform.appendChild(formB);
+    const labeltestA = (createElement('label', "Player1: ", '', []))
+    const formatestA = (createElement('input', '', '', []));
+    formatestA.type = "text";
+    const labeltestB = (createElement('label', "Player2: ", '', []))
+    const formatestB = (createElement('input', '', '', []));
+    formatestB.type = "text";
+
+    appendElements(playerform, [labeltestA, formatestA, labeltestB, formatestB]);
     playerinputs.innerHTML = "";
     playerinputs.appendChild(playerform);
     return {formA, formB}
