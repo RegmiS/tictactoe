@@ -10,6 +10,7 @@ const boardDisplay = document.querySelector('#game-board');
 const curplayer = document.querySelector('#gamestate');
 const startButton = document.querySelector('#start-button');
 const resetButton = document.querySelector('#reset-button');
+const playerinputs = document.querySelector('#player-control');
 
 
 function checkWinner() {
@@ -34,17 +35,21 @@ function checkWinner() {
         win=true;
     }
     if(win==true){
-        const winPar = document.createElement('p');
-        const playerStatement = playerState=="X"? "Player1  X" : "Player2 O";
-        winPar.innerHTML = "Finished game, winner is " + playerStatement;
-        boardDisplay.innerHTML = "";
-        boardDisplay.appendChild(winPar);
+        gamestate.innerHTML = "Finished game, winner is " + getCurPlayerStatement();
     }
 }
 
-function updateCurPlayer(){
+function getCurPlayerStatement(){
     const playerStatement = playerState=="X"? playerOne + " X" : playerTwo + " O";
-    curplayer.innerHTML = "Cur Player: " + playerStatement;
+    return playerStatement;
+}
+
+function updateCurPlayer(){
+    curplayer.innerHTML = "Cur Player: " + getCurPlayerStatement();
+}
+
+function swapPlayers(){
+    playerState = (playerState=="X") ? "O":"X";
 }
 
 function gameButtonClick(x,y){
@@ -52,7 +57,7 @@ function gameButtonClick(x,y){
         board[x][y] = playerState;
         displayGame();
         checkWinner();
-        playerState = (playerState=="X") ? "O":"X";
+        swapPlayers();
         updateCurPlayer();
     }
 }
@@ -77,14 +82,11 @@ function displayGame (){
             boardButton.innerHTML = board[x][y];
             boardButton.addEventListener("click", (event) => {
                 gameButtonClick(x,y);
-                event.preventDefault();
             });
             boardDisplay.appendChild(boardButton);
         }
     }
 }
-
-const playerinputs = document.querySelector('#player-control');
 
 function displayPlayers(){
     const playerform = document.createElement('form');
