@@ -1,0 +1,30 @@
+body {
+    background-color: #84a4b1;
+}
+
+footer {
+    margin-top: auto;
+    width: 100vw;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: top;
+    font-family: "Inter", sans-serif;
+    font-size: 16px;
+    background-color: #4e7585;
+    padding-top: 15px;
+}
+
+a {
+    text-decoration: none;
+    color: #b92929;
+}
+a:hover {
+    color: rgb(0, 0, 0);
+}
+
+img {
+    width: 15px;
+    height: 15px;
+    margin-left: 5px;
+}
