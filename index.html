@@ -5,17 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tic Tac Toe</title>
     <script src="script.js" defer></script>
-    <link rel="stylesheet" defer href="style.css">
+    <link rel="stylesheet" href="style.css">
+    <script>let FF_FOUC_FIX;</script>
 </head>
 <body>
-    <div class="winstate">
-        <p class="hide">Draw</p>
-        <p class="hide">The Winner is: </p>
-    </div>
-
     <div class="mainContent">
-        <div>
+        <div class="player-selection">
+            <button class="player-btn btn-p ">X</button>
+            <button class="player-btn btn-p">O</button>
+        </div>
 
+        <div class="game-board">
+            <button class="board-btn"></button>
+            <button class="board-btn"></button>
+            <button class="board-btn"></button>
+            <button class="board-btn"></button>
+            <button class="board-btn"></button>
+            <button class="board-btn"></button>
+            <button class="board-btn"></button>
+            <button class="board-btn"></button>
+            <button class="board-btn"></button>
+        </div>
+
+        <div>
+            <button class="player-btn reset-btn">Reset</button>
+            <div class="winstate">
+                <p class="hide"></p>
+            </div>
         </div>
     </div>
     

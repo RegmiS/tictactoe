@@ -42,15 +42,72 @@ img {
     margin-left: 5px;
 }
 
-
 .mainContent {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 100%;
     flex: 1;
 }
 
+.player-selection {
+    display: flex;
+    justify-content: center;
+    padding-bottom: 3vh;
+}
+
+.player-btn {
+    background-color: rgb(156, 87, 87);
+    border: 1px solid;
+    border-radius: 15px;
+}
+
+.btn-p {
+    width: 15em;
+    height: 2.5em;
+    margin: 1em 1em 1em 1em;
+}
+
+.player-btn:focus {
+    outline: none;
+}
+
+.player-btn:hover {
+    cursor: pointer;
+}
+
 .winstate {
     display: flex;
+}
+
+.game-board {
+    display: grid;
+    grid: 150px 150px 150px / 150px 150px 150px;
+    padding: 0;
+    margin: 0;
+    justify-content: center;
+}
+
+.board-btn {
+    font-weight: 700;
+    font-size: 60px;
+    background-color: aliceblue;
+    border: none;
+    outline: none;
+    border-radius: 0px;
+    border-bottom: 3px solid #1d3547;
+    border-right: 3px solid #1d3547;
+}
+
+.board-btn:hover {
+    cursor: pointer;
+}
+
+.reset-btn {
+    border: none;
+    width: 15em;
+    height: 2.5em;
+    margin: 1em 1em 1em 1em;
+    background-color: burlywood;
 }
