@@ -61,9 +61,6 @@ img {
     background-color: rgb(156, 87, 87);
     border: 1px solid;
     border-radius: 15px;
-}
-
-.btn-p {
     width: 15em;
     height: 2.5em;
     margin: 1em 1em 1em 1em;
@@ -110,4 +107,10 @@ img {
     height: 2.5em;
     margin: 1em 1em 1em 1em;
     background-color: burlywood;
+}
+
+.selected {
+    box-shadow: -5px 15px 22px -6px whitesmoke;
+    font-weight: 700;
+    border: 5px solid black;
 }
