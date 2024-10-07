@@ -1,16 +1,34 @@
 
 // handles the gameboard content and getting/updating/resetting gameboard values
 const gameBoard = (function(){
-    let gameBoardArray = [["","",""], ["","",""], ["","",""]];
+    let gameBoardArray = ["", "", "", "","","", "", "", ""];
     
-    const updateGameBoard = function (playerState, row, col){
-        gameBoardArray[row][col] = playerState;
+    const updateGameBoard = (playerState, index) => {
+        const htmlField = document.querySelector(`.game-board button:nth-child(${index + 1})`);
+        htmlField.textContent = playerState;
+        gameBoardArray[index] = playerState;
+        console.log(gameBoardArray);
     };
 
-    // todo:
-    // 
+    const getEmptySlots = () => {
+        let empty = []
+        for(let i = 0; i < gameBoardArray.length; i++){
+            if (gameBoardArray[i][j] == ""){
+                empty.push(i);
+            }
+        }
+        return empty;
+    }
 
-    return { updateGameBoard };
+    const resetGameBoard = () => {
+        for(let i = 0; i < gameBoardArray.length; i++){
+            for(let j = 0; j < gameBoardArray[0].length; j++){
+                gameBoardArray[i][j] = "";
+            }
+        }
+    }
+
+    return { updateGameBoard, getEmptySlots, resetGameBoard };
 
 })();
 
@@ -18,21 +36,25 @@ const gameBoard = (function(){
 // handles changing of gamestate - checks, player checks, game functions
 const gamestateController = (() => {
     let playerState = "X";
+    let aiState = "O";
 
     const swapState = () => {
         let oldState = playerState;
         playerState = oldState == "X"? "O":"X";
+        aiState = oldState;
         const oldStateDoc = document.querySelector(`#${oldState}`);
         const newStateDoc = document.querySelector(`#${playerState}`);
         oldStateDoc.classList = "player-btn";
         newStateDoc.classList = "player-btn selected";
     }
 
-    const test = (index) => {
-        console.log(`test ${index}`);
+    // clicked tile -> check for update and for possibility
+
+    const tileClick = (index) => {
+        gameBoard.updateGameBoard(playerState, index);
     }
     
-    return {test, swapState};
+    return {tileClick, swapState};
     
 })();
 
@@ -47,7 +69,7 @@ const displayController = (function(){
     const _init = (() => {
         for (let index = 0; index < htmlBoard.length; index++) {
             const element = htmlBoard[index];
-            element.addEventListener('click', gamestateController.test.bind(element, index));
+            element.addEventListener('click', gamestateController.tileClick.bind(element, index));
         }
     })();
 
