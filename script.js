@@ -89,10 +89,25 @@ const gamestateController = (() => {
         return false;
     }
 
+    const checkWinLoss = (board) => {
+        if(checkWinnerCols(board) || checkWinnerRows(board) || checkWinnerDiags(board)){
+            return true;
+        }
+        return false;
+    }
+
     const checkPossible = (index) => {
         if(gameBoard.getBoardValue(index)==""){
             return true;
         }
+    }
+
+    const checkDraw = (board) => {
+        let empty = gameBoard.getEmptySlots();
+        if (empty.length == 0){
+            return true;
+        }
+        return false;
     }
 
     const tileClick = (index) => {
