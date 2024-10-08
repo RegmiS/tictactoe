@@ -7,8 +7,11 @@ const gameBoard = (function(){
         const htmlField = document.querySelector(`.game-board button:nth-child(${index + 1})`);
         htmlField.textContent = playerState;
         gameBoardArray[index] = playerState;
-        console.log(gameBoardArray);
     };
+
+    const getBoardValue = (index) => {
+        return gameBoardArray[index];
+    }
 
     const getEmptySlots = () => {
         let empty = []
@@ -28,7 +31,7 @@ const gameBoard = (function(){
         }
     }
 
-    return { updateGameBoard, getEmptySlots, resetGameBoard };
+    return { updateGameBoard, getEmptySlots, resetGameBoard, getBoardValue };
 
 })();
 
@@ -48,10 +51,54 @@ const gamestateController = (() => {
         newStateDoc.classList = "player-btn selected";
     }
 
-    // clicked tile -> check for update and for possibility
+    const checkWinnerRows = (board) => {
+        for(let i = 0; i < 3; i++){
+            let rows = [];
+            for (let j = i*3; j < 3*3+3; j++){
+                rows.push(board.getBoardValue(j));
+            }
+            if (rows.every(val => val == "X") || rows.every(val => val == "O")){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    const checkWinnerCols = (board) => {
+        for(let i = 0; i < 3; i++){
+            let cols = [];
+            for (let j = 0; j < 3; j++){
+                cols.push(board.getBoardValue(i+3*j));
+            }
+            if (cols.every(val => val == "X") || cols.every(val => val == "O")){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    const checkWinnerDiags = (board) => {
+        diaone = [board.getField(0), board.getField(4), board.getField(8)];
+        diagtwo = [board.getField(6), board.getField(4), board.getField(2)];
+        if (diaone.every(val => val == 'X') || diaone.every(val => val == 'O')) {
+            return true;
+        }
+        else if (diagonal2.every(field => field == 'X') || diagonal2.every(field => field == 'O')) {
+            return true;
+        }
+        return false;
+    }
+
+    const checkPossible = (index) => {
+        if(gameBoard.getBoardValue(index)==""){
+            return true;
+        }
+    }
 
     const tileClick = (index) => {
-        gameBoard.updateGameBoard(playerState, index);
+        if(checkPossible(index)){
+            gameBoard.updateGameBoard(playerState, index);
+        }
     }
     
     return {tileClick, swapState};
@@ -62,10 +109,6 @@ const gamestateController = (() => {
 const displayController = (function(){
     const htmlBoard = Array.from(document.querySelectorAll('button.board-btn'));
 
-    const test = (index) => {
-        console.log(index);
-    }
-    
     const _init = (() => {
         for (let index = 0; index < htmlBoard.length; index++) {
             const element = htmlBoard[index];
