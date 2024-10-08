@@ -20,7 +20,7 @@ const gameBoard = (function(){
     const getEmptySlots = () => {
         let empty = []
         for(let i = 0; i < gameBoardArray.length; i++){
-            if (gameBoardArray[i][j] == ""){
+            if (gameBoardArray[i] == ""){
                 empty.push(i);
             }
         }
@@ -53,6 +53,11 @@ const gamestateController = (() => {
         const newStateDoc = document.querySelector(`#${playerState}`);
         oldStateDoc.classList = "player-btn";
         newStateDoc.classList = "player-btn selected";
+    }
+
+    const aiMove = (board) => {
+        let emptyIndicies = board.getEmptySlots();
+        return emptyIndicies[Math.floor(Math.random() * emptyIndicies.length)];
     }
 
     const checkWinnerRows = (board) => {
@@ -107,7 +112,7 @@ const gamestateController = (() => {
     }
 
     const checkDraw = (board) => {
-        let empty = gameBoard.getEmptySlots();
+        let empty = board.getEmptySlots();
         if (empty.length == 0){
             return true;
         }
@@ -119,6 +124,15 @@ const gamestateController = (() => {
             gameBoard.updateGameBoard(playerState, index);
             if(checkWinLoss(gameBoard)){
                 console.log("wongame");
+            }
+            else if (checkDraw(gameBoard)){
+                console.log("draw");
+            }
+            else{
+                let aiIndex = aiMove(gameBoard);
+                console.log(aiIndex);
+                gameBoard.updateGameBoard(aiState, aiIndex);
+                // check if ai won
             }
         }
     }
