@@ -9,6 +9,10 @@ const gameBoard = (function(){
         gameBoardArray[index] = playerState;
     };
 
+    const getAllVals = () => {
+        return gameBoardArray;
+    }
+
     const getBoardValue = (index) => {
         return gameBoardArray[index];
     }
@@ -31,7 +35,7 @@ const gameBoard = (function(){
         }
     }
 
-    return { updateGameBoard, getEmptySlots, resetGameBoard, getBoardValue };
+    return { updateGameBoard, getEmptySlots, resetGameBoard, getBoardValue, getAllVals };
 
 })();
 
@@ -54,7 +58,7 @@ const gamestateController = (() => {
     const checkWinnerRows = (board) => {
         for(let i = 0; i < 3; i++){
             let rows = [];
-            for (let j = i*3; j < 3*3+3; j++){
+            for (let j = i*3; j < i*3+3; j++){
                 rows.push(board.getBoardValue(j));
             }
             if (rows.every(val => val == "X") || rows.every(val => val == "O")){
@@ -78,12 +82,12 @@ const gamestateController = (() => {
     }
 
     const checkWinnerDiags = (board) => {
-        diaone = [board.getField(0), board.getField(4), board.getField(8)];
-        diagtwo = [board.getField(6), board.getField(4), board.getField(2)];
+        diaone = [board.getBoardValue(0), board.getBoardValue(4), board.getBoardValue(8)];
+        diagtwo = [board.getBoardValue(6), board.getBoardValue(4), board.getBoardValue(2)];
         if (diaone.every(val => val == 'X') || diaone.every(val => val == 'O')) {
             return true;
         }
-        else if (diagonal2.every(field => field == 'X') || diagonal2.every(field => field == 'O')) {
+        else if (diagtwo.every(val => val == 'X') || diagtwo.every(val => val == 'O')) {
             return true;
         }
         return false;
@@ -113,6 +117,9 @@ const gamestateController = (() => {
     const tileClick = (index) => {
         if(checkPossible(index)){
             gameBoard.updateGameBoard(playerState, index);
+            if(checkWinLoss(gameBoard)){
+                console.log("wongame");
+            }
         }
     }
     
