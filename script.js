@@ -29,9 +29,7 @@ const gameBoard = (function(){
 
     const resetGameBoard = () => {
         for(let i = 0; i < gameBoardArray.length; i++){
-            for(let j = 0; j < gameBoardArray[0].length; j++){
-                gameBoardArray[i][j] = "";
-            }
+            gameBoardArray[i] = "";
         }
     }
 
@@ -55,6 +53,7 @@ const gamestateController = (() => {
         newStateDoc.classList = "player-btn selected";
     }
 
+    
     const aiMove = (board) => {
         let emptyIndicies = board.getEmptySlots();
         return emptyIndicies[Math.floor(Math.random() * emptyIndicies.length)];
@@ -123,16 +122,20 @@ const gamestateController = (() => {
         if(checkPossible(index)){
             gameBoard.updateGameBoard(playerState, index);
             if(checkWinLoss(gameBoard)){
-                console.log("wongame");
+                console.log("wongame player");
             }
             else if (checkDraw(gameBoard)){
-                console.log("draw");
+                console.log("draw player/ai");
             }
             else{
                 let aiIndex = aiMove(gameBoard);
-                console.log(aiIndex);
                 gameBoard.updateGameBoard(aiState, aiIndex);
-                // check if ai won
+                if (checkWinLoss(gameBoard)){
+                    console.log("aiwon");
+                }
+                else if (checkDraw(gameBoard)){
+                    console.log("draw player/ai");
+                }
             }
         }
     }
@@ -144,6 +147,14 @@ const gamestateController = (() => {
 // handles button clicking/page interactions
 const displayController = (function(){
     const htmlBoard = Array.from(document.querySelectorAll('button.board-btn'));
+    const restartButton = document.querySelector('.reset-btn');
+
+    const clear = () => {
+        htmlBoard.forEach(tile => {
+            tile.textContent = "";
+        });
+        gameBoard.resetGameBoard();
+    }
 
     const _init = (() => {
         for (let index = 0; index < htmlBoard.length; index++) {
@@ -157,7 +168,9 @@ const displayController = (function(){
         xselect.addEventListener('click', gamestateController.swapState.bind(xselect));
         const oselect = document.querySelector(`#O`);
         oselect.addEventListener('click', gamestateController.swapState.bind(oselect));
+        restartButton.addEventListener('click', clear.bind(restartButton));
     })();
+
     
 })();
 
