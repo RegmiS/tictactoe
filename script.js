@@ -53,7 +53,7 @@ const gamestateController = (() => {
         newStateDoc.classList = "player-btn selected";
     }
 
-    
+
     const aiMove = (board) => {
         let emptyIndicies = board.getEmptySlots();
         return emptyIndicies[Math.floor(Math.random() * emptyIndicies.length)];
@@ -123,18 +123,22 @@ const gamestateController = (() => {
             gameBoard.updateGameBoard(playerState, index);
             if(checkWinLoss(gameBoard)){
                 console.log("wongame player");
+                displayController.displayWinState("win", playerState);
             }
             else if (checkDraw(gameBoard)){
                 console.log("draw player/ai");
+                displayController.displayWinState("draw", "none");
             }
             else{
                 let aiIndex = aiMove(gameBoard);
                 gameBoard.updateGameBoard(aiState, aiIndex);
                 if (checkWinLoss(gameBoard)){
                     console.log("aiwon");
+                    displayController.displayWinState("win", aiState);
                 }
                 else if (checkDraw(gameBoard)){
                     console.log("draw player/ai");
+                    displayController.displayWinState("draw", "none");
                 }
             }
         }
@@ -149,10 +153,29 @@ const displayController = (function(){
     const htmlBoard = Array.from(document.querySelectorAll('button.board-btn'));
     const restartButton = document.querySelector('.reset-btn');
 
+    const displayWinState = (state, winner) => {
+        if(state=="win"){
+            const winselect = document.querySelector("#win");
+            winselect.classList = "conc-text";
+            const winnerdoc = document.querySelector(`.${winner}`);
+            winnerdoc.classList = `conc-text ${winner}`;
+        }
+        else{
+            const drawselect = document.querySelector("#draw");
+            drawselect.classList = "conc-text";
+        }
+    }
+
+    const hideWinnerState = () => {
+        const alldocs = document.querySelectorAll(`.conc-text`);
+        alldocs.forEach(val => val.classList.add("hide"));
+    }
+
     const clear = () => {
         htmlBoard.forEach(tile => {
             tile.textContent = "";
         });
+        hideWinnerState();
         gameBoard.resetGameBoard();
     }
 
@@ -171,6 +194,6 @@ const displayController = (function(){
         restartButton.addEventListener('click', clear.bind(restartButton));
     })();
 
-    
+    return {displayWinState, hideWinnerState};
 })();
 
