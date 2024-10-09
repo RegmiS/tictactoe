@@ -43,14 +43,28 @@ const gamestateController = (() => {
     let playerState = "X";
     let aiState = "O";
 
+    const resetStates = () => {
+        playerState = "X";
+        aiState = "O";
+        const playerstatedoc = document.querySelector(`#${playerState}`);
+        const aistatedoc = document.querySelector(`#${aiState}`);
+        playerstatedoc.classList = "player-btn selected";
+        aistatedoc.classList = "player-btn";
+    }
+
     const swapState = () => {
         let oldState = playerState;
         playerState = oldState == "X"? "O":"X";
         aiState = oldState;
         const oldStateDoc = document.querySelector(`#${oldState}`);
         const newStateDoc = document.querySelector(`#${playerState}`);
+        displayController.clear();
         oldStateDoc.classList = "player-btn";
         newStateDoc.classList = "player-btn selected";
+        if(playerState == "O"){
+            let aiIndex = aiMove(gameBoard);
+            gameBoard.updateGameBoard(aiState, aiIndex);
+        }
     }
 
 
@@ -122,29 +136,25 @@ const gamestateController = (() => {
         if(checkPossible(index)){
             gameBoard.updateGameBoard(playerState, index);
             if(checkWinLoss(gameBoard)){
-                console.log("wongame player");
                 displayController.displayWinState("win", playerState);
             }
             else if (checkDraw(gameBoard)){
-                console.log("draw player/ai");
                 displayController.displayWinState("draw", "none");
             }
             else{
                 let aiIndex = aiMove(gameBoard);
                 gameBoard.updateGameBoard(aiState, aiIndex);
                 if (checkWinLoss(gameBoard)){
-                    console.log("aiwon");
                     displayController.displayWinState("win", aiState);
                 }
                 else if (checkDraw(gameBoard)){
-                    console.log("draw player/ai");
                     displayController.displayWinState("draw", "none");
                 }
             }
         }
     }
     
-    return {tileClick, swapState};
+    return {tileClick, swapState, resetStates};
     
 })();
 
@@ -179,6 +189,11 @@ const displayController = (function(){
         gameBoard.resetGameBoard();
     }
 
+    const restartStates = () => {
+        clear();
+        gamestateController.resetStates();
+    }
+
     const _init = (() => {
         for (let index = 0; index < htmlBoard.length; index++) {
             const element = htmlBoard[index];
@@ -191,9 +206,9 @@ const displayController = (function(){
         xselect.addEventListener('click', gamestateController.swapState.bind(xselect));
         const oselect = document.querySelector(`#O`);
         oselect.addEventListener('click', gamestateController.swapState.bind(oselect));
-        restartButton.addEventListener('click', clear.bind(restartButton));
+        restartButton.addEventListener('click', restartStates.bind(restartButton));
     })();
 
-    return {displayWinState, hideWinnerState};
+    return {displayWinState, hideWinnerState, clear};
 })();
 
